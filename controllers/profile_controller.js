@@ -1,3 +1,3 @@
 module.exports.pic = (req, res) => {
-    return res.end('<h1>Hey I am Tony stark</h1>')
+    return res.render('User_profile', { title: "Profile" });
 }
