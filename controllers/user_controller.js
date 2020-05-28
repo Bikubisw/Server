@@ -3,9 +3,15 @@ module.exports.profile = (req, res) => {
     return res.render('User_profile', { title: "Profile" });
 }
 module.exports.signin = (req, res) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_in', { title: "Codial|Sign In" });
 }
 module.exports.signup = (req, res) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_up', { title: "Codial|Sign up" });
 }
 module.exports.create = (req, res) => {
@@ -30,5 +36,9 @@ module.exports.create = (req, res) => {
     });
 }
 module.exports.createSession = (req, res) => {
-    //TODO Late
+    return res.redirect('/');
+}
+module.exports.destroySession = (req, res) => {
+    req.logout();
+    return res.redirect('/');
 }

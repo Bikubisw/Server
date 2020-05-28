@@ -1,0 +1,52 @@
+const passport = require('passport');
+const LocalStarategy = require('passport-local').Strategy;
+const User = require('../models/user');
+// authentication using user
+passport.use(new LocalStarategy({
+
+        usernameField: 'email'
+    },
+    function(email, password, done) {
+        User.findOne({ email: email }, (err, user) => {
+            if (err) {
+                console.log("Error in Finding-->passport");
+                return done(err);
+            }
+            if (!user || user.password != password) {
+                console.log("Inavalid username and password");
+                return done(null, false);
+            }
+            return done(null, user);
+        });
+    }
+));
+//serializing the user to decide which key is to be kept in the cookies
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+
+});
+passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+        if (err) {
+            console.log("Error in Finding-->passport");
+            return done(err);
+
+        }
+        return done(null, user);
+    });
+
+});
+passport.checkAuthentication = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    return res.redirect('/users/signin');
+}
+passport.setAuthenticatedUser = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.locals.user = req.user;
+    }
+    next();
+}
+module.exports = passport;
+//desrailizing the user from the key in the cookies
