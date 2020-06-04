@@ -4,16 +4,17 @@ const User = require('../models/user');
 // authentication using user
 passport.use(new LocalStarategy({
 
-        usernameField: 'email'
+        usernameField: 'email',
+        passReqToCallback: true
     },
-    function(email, password, done) {
+    function(req, email, password, done) {
         User.findOne({ email: email }, (err, user) => {
             if (err) {
-                console.log("Error in Finding-->passport");
+                req.flash('error', err);
                 return done(err);
             }
             if (!user || user.password != password) {
-                console.log("Inavalid username and password");
+                req.flash('error', 'Invalid Username or Password');
                 return done(null, false);
             }
             return done(null, user);

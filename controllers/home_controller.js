@@ -12,6 +12,7 @@
      try {
          let posts = await Post.find({})
              .populate('user')
+             .sort('-createdAt')
              .populate({
                  path: 'comment',
                  populate: {

@@ -5,7 +5,7 @@
     <section id="feed-posts">
         <h4>Posts</h4>
         <%if (locals.user){%>
-            <form action="/posts/create" method="POST">
+            <form action="/posts/create" id="new-post-form" method="POST">
                 <textarea name='content' rows="3" cols="30" placeholder="Type here..." required></textarea>
                 <button type="submit"><p style="font-size:15px;margin:0">&#128540;</p>
 </button>
@@ -39,3 +39,5 @@
             <%}%>
     </section>
 </div>
+<script src="/js/home_posts.js">
+</script>
