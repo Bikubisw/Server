@@ -11,6 +11,7 @@ app.use(express.urlencoded());
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local');
+const passportJwt = require('./config/passport-jwt-strategy');
 const Mongostore = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
@@ -53,10 +54,12 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(passport.setAuthenticatedUser);
 app.use(flash());
 app.use(customMware.setFlash);
 app.use(require('./routes'));
+app.use('/users/profile/uploads', express.static(__dirname + '/uploads'));
 
 app.listen(port, (err) => {
     if (err) {

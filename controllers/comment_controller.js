@@ -13,6 +13,7 @@ module.exports.create = async function(req, res) {
             post.comment.push(comment);
             post.save();
             if (req.xhr) {
+                comment = await comment.populate('user', 'name').execPopulate();
                 return res.status(200).json({
                     data: {
                         comment: comment,
@@ -34,13 +35,25 @@ module.exports.destroy = async function(req, res) {
         if (comment.user == req.user.id) {
             let postid = comment.post;
             comment.remove();
-            Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } }, function(err, post) {
-                return res.redirect('back');
-            });
+            let post = Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } });
+            if (req.xhr) {
+                return res.status(200).json({
+                    data: {
+                        comment_id: req.params.id
+                    },
+                    message: "comment deleted"
+                });
+            }
+            req.flash('success', 'Comment deleted!');
+
+            return res.redirect('back');
+
 
         } else {
+            req.flash('error', 'Unauthorized');
             return res.redirect('back');
         }
+
     } catch (err) {
         console.log("Error", err);
         return;

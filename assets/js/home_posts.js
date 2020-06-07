@@ -12,6 +12,7 @@
                         let newPost = newpostDom(data.data.post);
                         $("#post-list-container>ul").prepend(newPost);
                         deletepost($(' .delete-post-button', newPost));
+                        new PostComments(data.data.post._id);
 
                         new Noty({
                             theme: 'relax',
@@ -41,7 +42,7 @@
         ${post.user.name}
     </small>
                 <div class="post-comments">
-                        <form action="/comments/create" method="POST" id="id="post-${post._id}-comments-form"">
+                        <form action="/comments/create" method="POST" id="post-${post._id}-comments-form">
 
                             <input type="text" name="content" placeholder="Type here to add comment..." required>
                             <input type="hidden" name="post" value="${post._id}">
@@ -83,14 +84,14 @@
     let convertPostsToAjax = function() {
         $('#post-list-container>ul>li').each(function() {
             let self = $(this);
-            console.log(self);
+            // console.log(self);
             let deleteButton = $(' .delete-post-button', self);
-            //console.log(deleteButton);
+            // console.log(deleteButton);
             deletepost(deleteButton);
 
-            // // get the post's id by splitting the id attribute
-            // let postId = self.prop('id').split("-")[1]
-            // new PostComments(postId);
+            // get the post's id by splitting the id attribute
+            let postId = self.prop('id').split("-")[1];
+            new PostComments(postId);
         });
     }
 
