@@ -4,9 +4,9 @@ const crypto = require('crypto');
 const User = require('../models/user');
 //Tell passport to add new strategy for google login
 passport.use(new GoogleStrategy({
-    clientID: "886866967364-0ku4fo0l2o221sn28o8bh2lmgue7pcco.apps.googleusercontent.com",
-    clientSecret: "iIfOQP7Zig00j9L_BHJrVRI_",
-    callbackURL: "https://localhost:8000/users/auth/google/callback"
+    clientID: "139051006773-ke41j5cgdure465m4h4tiav9ketq6uip.apps.googleusercontent.com",
+    clientSecret: "E8VLm_PZf_flKzUwm7Us6Xia",
+    callbackURL: "http://localhost:8000/users/auth/google/callback"
 }, function(accessToken, refreshToken, profile, done) {
     User.findOne({ email: profile.emails[0].value }).exec(function(err, user) {
         if (err) {
@@ -28,7 +28,7 @@ passport.use(new GoogleStrategy({
                 }
                 return done(null, user);
 
-            })
+            });
         }
-    })
-}))
+    });
+}));
