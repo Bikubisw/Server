@@ -43,3 +43,11 @@
 </script>
 <script src="/js/home_posts.js">
 </script>
+<script src="/js/toggle_like.js">
+</script>
+<script>
+    $('.toggle-like-button').each(function() {
+        let self = this;
+        let newtogglelike = new ToggleLike(self);
+    });
+</script>

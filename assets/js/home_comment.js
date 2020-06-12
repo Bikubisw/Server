@@ -25,7 +25,7 @@ class PostComments {
                     let newComment = pSelf.newCommentDom(data.data.comment);
                     $(`#post-comments-${postId}`).prepend(newComment);
                     pSelf.deleteComment($(' .delete-comment-button', newComment));
-
+                    new ToggleLike($('.toggle-like-button', newComment));
                     new Noty({
                         theme: 'relax',
                         text: "Comment published!",
@@ -53,7 +53,12 @@ class PostComments {
                             
                             <small>
                                 <a class="delete-comment-button" href="/comments/destroy/${comment._id}">delete</a>
-                            </small>
+                            </small><br>
+                                            <small>
+        <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Comment">
+        0 Likes
+        </a>
+    </small>
                             
                             ${comment.content}
                             <br>

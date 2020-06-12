@@ -6,6 +6,5 @@ router.use('/users', require("./user_route"));
 router.use('/posts', require('./post_route'));
 router.use('/comments', require('./comment_route'));
 router.use('/api', require('./api'));
-
-//router.use('/profile', require('./profile_route'));
+router.use('/likes', require('./like_route'));
 module.exports = router;

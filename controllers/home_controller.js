@@ -17,8 +17,11 @@
                  path: 'comment',
                  populate: {
                      path: 'user'
+                 },
+                 populate: {
+                     path: 'likes'
                  }
-             });
+             }).populate('likes');
          let users = await User.find({});
          return res.render('home', {
              title: 'Codial|Home',

@@ -10,7 +10,7 @@ const likeSchema = new mongoose.Schema({
         required: true,
         refPath: 'onModel'
     },
-    //this fiels is used for defining the type of the liked object
+    //this fiels is used for defining the type of the liked object since it is a dynamic reference
     onModel: {
         type: String,
         required: true,
