@@ -13,7 +13,7 @@
                         $("#post-list-container>ul").prepend(newPost);
                         deletepost($(' .delete-post-button', newPost));
                         new PostComments(data.data.post._id);
-                        new ToggleLike($('.toggle-like-button', newPost));
+                        new ToggleLike($(' .toggle-like-button', newPost));
 
                         new Noty({
                             theme: 'relax',

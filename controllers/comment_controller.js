@@ -33,10 +33,12 @@ module.exports.create = async function(req, res) {
                     message: "comment Created"
                 });
             }
+            req.flash('success', 'Comment published!');
+
             res.redirect('/');
         }
     } catch (err) {
-        console.log('Error', err);
+        req.flash('error', err);
         return;
     }
 
@@ -48,7 +50,7 @@ module.exports.destroy = async function(req, res) {
             let postid = comment.post;
             comment.remove();
             let post = Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } });
-            await Like.deleteMany({ likeable: 'comment', onModel: 'Comment' });
+            await Like.deleteMany({ likeable: comment, onModel: 'Comment' });
             if (req.xhr) {
                 return res.status(200).json({
                     data: {

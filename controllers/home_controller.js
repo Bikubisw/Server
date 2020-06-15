@@ -1,5 +1,6 @@
  const Post = require('../models/post');
  const User = require('../models/user');
+ const Chat = require('../models/chat');
  module.exports.home = async function(req, res) {
      // console.log(req.cookies);
      // return res.render('home', { title: "home" });
@@ -11,17 +12,18 @@
      //  });
      try {
          let posts = await Post.find({})
-             .populate('user')
              .sort('-createdAt')
+             .populate('user')
              .populate({
                  path: 'comment',
                  populate: {
                      path: 'user'
-                 },
-                 populate: {
-                     path: 'likes'
                  }
+                 //  populate: {
+                 //      path: 'likes'
+                 //  }
              }).populate('likes');
+
          let users = await User.find({});
          return res.render('home', {
              title: 'Codial|Home',

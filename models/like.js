@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const likeSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
-        required: true
     },
     //this defines the objectid of liked object
     likeable: {
