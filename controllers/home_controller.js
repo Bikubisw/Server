@@ -23,12 +23,15 @@
                  //      path: 'likes'
                  //  }
              }).populate('likes');
+         let chats = await Chat.find({});
+
 
          let users = await User.find({});
          return res.render('home', {
              title: 'Codial|Home',
              posts: posts,
-             all_users: users
+             all_users: users,
+             chats: chats
          });
 
      } catch (err) {

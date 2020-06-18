@@ -1,4 +1,6 @@
 const express = require('express');
+const env = require('./config/environment');
+const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8000;
@@ -23,14 +25,17 @@ chatServer.listen(5000);
 console.log("Chat server is running on port 5000");
 app.use(cookieParser());
 app.use(expressLayout);
-app.use(sassMiddleware({
-    src: './assets/scss',
-    dest: './assets/css',
-    debug: true,
-    outputstyle: 'extended',
-    prefix: '/css'
-}));
-app.use(express.static('./assets'));
+if (env.name == 'development') {
+    app.use(sassMiddleware({
+        src: path.join(__dirname, env.asset_path, 'scss'),
+        dest: path.join(__dirname, env.asset_path, 'css'),
+        debug: true,
+        outputstyle: 'extended',
+        prefix: '/css'
+    }));
+}
+app.use(express.static(env.asset_path));
+app.use(logger(env.morgan.mode, env.morgan.options));
 
 app.set("layout extractStyles", true);
 app.set("layout extractScripts", true);
@@ -39,7 +44,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, 'views'));
 app.use(session({
     name: 'Codial',
-    secret: "blahsomething",
+    secret: env.session_cookie_key,
     saveUninitialized: false,
     resave: false,
     cookie: {
