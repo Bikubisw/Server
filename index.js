@@ -10,7 +10,7 @@ const db = require('./config/mongoose');
 const expressLayout = require("express-ejs-layouts");
 // use express router
 app.use(expressLayout);
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false }));
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local');
